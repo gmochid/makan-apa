@@ -1,16 +1,11 @@
 <ion-view view-title="Dashboard">
   <ion-content>
-    <div class="row" ng-if="loggedIn">
-      <div class="col col-33 col-offset-33 button button-stable" ng-click="whatToEat()">
+    <div class="row">
+      <div class="col col-80 col-offset-10 button button-stable" ng-click="whatToEat()">
         Makan Apa?
       </div>
     </div>
-    <div class="row" ng-if="!loggedIn">
-      <div class="col col-33 col-offset-33 button button-positive" ng-click="login()">
-        Login by facebook
-      </div>
-    </div>
-    <div class="col col-33 col-offset-33 card" ng-if="selectedMenu">
+    <div class="col col-80 col-offset-10 card" ng-if="selectedMenu">
     	<div class="item item-divider">
 		    {{selectedMenu.selectedPlace.name}}
 		  </div>
