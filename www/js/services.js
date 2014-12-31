@@ -1,9 +1,9 @@
-angular.module('makan-apa.services', [])
+angular.module('makan-apa.services', ['firebase'])
+
+.value('fbBaseURL', 'https://makan-apa.firebaseio.com')
+.value('placesURL', '/places')
 
 .factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
   var chats = [{
     id: 0,
     name: 'Ben Sparrow',
@@ -49,14 +49,7 @@ angular.module('makan-apa.services', [])
   }
 })
 
-/**
- * A simple example service that returns some data.
- */
 .factory('Friends', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  // Some fake testing data
   var friends = [{
     id: 0,
     name: 'Ben Sparrow',
@@ -84,7 +77,6 @@ angular.module('makan-apa.services', [])
     face: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg'
   }];
 
-
   return {
     all: function() {
       return friends;
@@ -94,4 +86,53 @@ angular.module('makan-apa.services', [])
       return friends[friendId];
     }
   }
-});
+})
+
+.factory('Places', function($firebase, fbBaseURL, placesURL) {
+  var places = [];
+
+  return {
+    selectRandom: function(onSuccess) {
+      var ref = new Firebase(fbBaseURL + placesURL);
+      places = $firebase(ref).$asArray();
+      places.$loaded().then(function(places) {
+        var selectedPlace = places[Math.floor(Math.random() * places.length)];
+        var selectedMenuIndex = Math.floor(Math.random() * selectedPlace.menu.length);
+
+        onSuccess({
+          "selectedPlace" : selectedPlace,
+          "selectedMenuIndex" : selectedMenuIndex 
+        });
+      });
+    }
+  }
+})
+
+.service('User', function ($firebase, fbBaseURL, $rootScope) {
+  var self = this;
+  var ref = new Firebase(fbBaseURL);
+
+  self.auth = {};
+  self.login = function() {
+    ref.authWithOAuthPopup("facebook", function(error, authData) { 
+      self.auth = authData;
+      console.log(self.auth);
+      $rootScope.$broadcast('loggedIn');
+    }); 
+  }
+  self.getAuth = function() {
+    var ref = new Firebase(fbBaseURL);
+    self.auth = ref.getAuth();
+    return self.isLogged();
+  }
+  self.isLogged = function() {
+    return !_.isEmpty(self.auth);
+  }
+  self.logout = function() {
+    self.auth = {};
+    ref.unauth();
+    $rootScope.$broadcast('loggedIn');
+  }
+})
+
+;

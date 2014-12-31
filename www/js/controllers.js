@@ -1,6 +1,21 @@
 angular.module('makan-apa.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', function($scope, User, Places) {
+  $scope.loggedIn = User.getAuth();
+  $scope.login = function() {
+    User.login();
+  }
+  $scope.$on('loggedIn', function() {
+    $scope.loggedIn = User.isLogged();
+  });
+
+  $scope.whatToEat = function() {
+    Places.selectRandom(function(selectedMenu) {
+      $scope.selectedMenu = selectedMenu;
+      console.log(selectedMenu);
+    });
+  }
+})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   $scope.chats = Chats.all();
