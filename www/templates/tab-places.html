@@ -1,0 +1,15 @@
+<ion-view view-title="Places">
+  <ion-content>
+  	<div class="list list-inset">
+  		<div ng-repeat="place in places">
+	  		<div class="item item-divider">
+	        {{place.name}}
+	      </div>
+
+	      <div class="item" ng-repeat="menu in place.menu">
+	      	{{menu}}
+	      </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -30,7 +30,7 @@ angular.module('makan-apa', ['ionic', 'makan-apa.controllers', 'makan-apa.servic
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: "/tab",
     abstract: true,
     templateUrl: "templates/tabs.html"
@@ -48,40 +48,12 @@ angular.module('makan-apa', ['ionic', 'makan-apa.controllers', 'makan-apa.servic
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.places', {
+      url: '/places',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.friends', {
-      url: '/friends',
-      views: {
-        'tab-friends': {
-          templateUrl: 'templates/tab-friends.html',
-          controller: 'FriendsCtrl'
-        }
-      }
-    })
-    .state('tab.friend-detail', {
-      url: '/friend/:friendId',
-      views: {
-        'tab-friends': {
-          templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
+        'tab-places': {
+          templateUrl: 'templates/tab-places.html',
+          controller: 'PlacesCtrl'
         }
       }
     })
