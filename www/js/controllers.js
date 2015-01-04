@@ -9,7 +9,7 @@ angular.module('makan-apa.controllers', ['ionic'])
   }
 })
 
-.controller('PlacesCtrl', function($scope, Places) {
+.controller('PlacesCtrl', function($scope, $ionicPopup, Places) {
   $scope.init = function() {
     Places.all(function(places) {
       $scope.places = places;
@@ -28,8 +28,47 @@ angular.module('makan-apa.controllers', ['ionic'])
     $scope.addMenuInput[index] = '';
     $scope.addMenuForm[index] = false;
   }
+  $scope.addPlace = function(placeName) {
+    var newPlace = {
+      name: placeName,
+      menu: []
+    }
+
+    Places.addPlace(newPlace);
+  }
   $scope.showAddMenuForm = function(index) {
     $scope.addMenuForm[index] = true;
+  }
+  $scope.showAddPlaceForm = function() {
+    $scope.addPlaceInput = {
+      text:''
+    };
+
+    var addPlacePopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="addPlaceInput.text"/>',
+      title: 'New Place',
+      scope: $scope,
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'OK',
+          type: 'button-positive',
+          onTap: function(e) {
+            if($scope.addPlaceInput.text == '') {
+              e.preventDefault();
+            } else {
+              return $scope.addPlaceInput;
+            }
+          }
+        }
+      ]
+    });
+
+    addPlacePopup.then(function(result) {
+      $scope.addPlace(result.text);
+    });
   }
 
   $scope.init();

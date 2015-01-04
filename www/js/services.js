@@ -15,8 +15,14 @@ angular.module('makan-apa.services', ['firebase'])
     });
   }
   self.addMenu = function(index, menu) {
+    if (self.places[index].menu == undefined) {
+      self.places[index].menu = [];
+    };
     self.places[index].menu.push(menu);
     self.places.$save(index);
+  }
+  self.addPlace = function(newPlace) {
+    self.places.$add(newPlace);
   }
   self.selectRandom = function(onSuccess) {
     self.places = $firebase(refPlaces).$asArray();
