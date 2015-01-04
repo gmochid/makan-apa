@@ -1,15 +1,28 @@
 <ion-view view-title="Places">
   <ion-content>
-  	<div class="list list-inset">
-  		<div ng-repeat="place in places">
-	  		<div class="item item-divider">
-	        {{place.name}}
-	      </div>
+  	<div class="list card" ng-repeat="place in places">
+  		<div class="item item-button-right" style="background:#e5e5e5;">
+        <b>{{place.name}}</b>
+        <div class="button" ng-click="showAddMenuForm({{$index}})">
+		      <i class="icon ion-ios-plus-empty"></i>
+		    </div>
+      </div>
 
-	      <div class="item" ng-repeat="menu in place.menu">
-	      	{{menu}}
-	      </div>
+      <div class="item" ng-repeat="menu in place.menu">
+      	{{menu}}
+      </div>
+
+      <div class="item item-input-inset" ng-if="addMenuForm[$index]">
+      	<input type="text" ng-model="addMenuInput[$index]" placeholder="Menu">
+      	<button class="button button-small" ng-click="addMenu({{$index}})">
+      		Submit
+      	</button>
       </div>
     </div>
   </ion-content>
+  <ion-nav-buttons side="right">
+    <div class="button">
+      Add Place
+    </div>
+  </ion-nav-buttons> 
 </ion-view>
